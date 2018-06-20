@@ -31,7 +31,7 @@ public class Consulta extends JFrame {
         formulario();
         llenarTabla();
         Container container = getContentPane();
-        container.add("lblCodigo");
+        container.add(lblNombre);
         container.add("lblMarca");
         container.add("lblStock");
         container.add("lblExistencia");
