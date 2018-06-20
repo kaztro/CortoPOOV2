@@ -7,10 +7,10 @@ import java.awt.*;
 public class Consulta extends JFrame {
     public JLabel lblNombre, lblDirector, lblPais, lblClasificacion, lblAño, lblEn_proyeccion;
 
-    public JTextField codigo, descripcion, stock;
+    public JTextField nombre, director, pais, año;
     public JComboBox clasificacion;
 
-    ButtonGroup existencia = new ButtonGroup();
+    ButtonGroup en_proyeccion = new ButtonGroup();
     public JRadioButton no;
     public JRadioButton si;
     public JTable resultados;
@@ -29,13 +29,15 @@ public class Consulta extends JFrame {
         setLayout(null);
         agregarLabels();
         formulario();
-        llenarTabla();
+        //llenarTabla();
         Container container = getContentPane();
         container.add(lblNombre);
-        container.add("lblMarca");
-        container.add("lblStock");
-        container.add("lblExistencia");
-        container.add("codigo");
+        container.add(lblDirector);
+        container.add(lblPais);
+        container.add(lblClasificacion);
+        container.add(lblAño);
+        container.add(lblEn_proyeccion);
+        container.add("nombre");
         container.add("marca");
         container.add("stock");
         container.add("si");
@@ -47,7 +49,7 @@ public class Consulta extends JFrame {
         container.add("limpiar");
         container.add("table");
         setSize(600, 600);
-        eventos();
+        //eventos();
     }
 
     public final void agregarLabels() {
@@ -57,14 +59,16 @@ public class Consulta extends JFrame {
         lblEn_proyeccion = new JLabel("En Proyeccion");
         lblClasificacion = new JLabel("Clasificacion");
         lblAño = new JLabel("Año");
-        lblCodigo.setBounds(10, 10, ANCHOC, ALTOC);
-        lblMarca.setBounds(10, 60, ANCHOC, ALTOC);
-        lblStock.setBounds(10, 100, ANCHOC, ALTOC);
-        lblExistencia.setBounds(10, 140, ANCHOC, ALTOC);
+        lblNombre.setBounds(10, 10, ANCHOC, ALTOC);
+        lblDirector.setBounds(10, 60, ANCHOC, ALTOC);
+        lblPais.setBounds(10, 100, ANCHOC, ALTOC);
+        lblEn_proyeccion.setBounds(10, 140, ANCHOC, ALTOC);
+        lblClasificacion.setBounds(10, 30, ANCHOC, ALTOC);
+        lblAño.setBounds(10, 38, ANCHOC, ALTOC);
     }
 
     public final void formulario() {
-        codigo = new JTextField();
+        nombre = new JTextField();
         clasificacion = new JComboBox();
         stock = new JTextField();
     }
