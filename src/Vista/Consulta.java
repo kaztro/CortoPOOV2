@@ -5,12 +5,15 @@ import dao.MovieDao;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Consulta extends JFrame {
     public JLabel lblNombre, lblDirector, lblPais, lblClasificacion, lblAño, lblEn_proyeccion;
 
-    public JTextField nombre, director, pais, año;
+    public JTextField nombre, director, pais, año, enProyec;
     public JComboBox clasificacion;
 
     ButtonGroup en_proyeccion = new ButtonGroup();
@@ -32,7 +35,7 @@ public class Consulta extends JFrame {
         setLayout(null);
         agregarLabels();
         formulario();
-        //llenarTabla();
+        llenarTabla();
         Container container = getContentPane();
         container.add(lblNombre);
         container.add(lblDirector);
@@ -45,6 +48,7 @@ public class Consulta extends JFrame {
         container.add(director);
         container.add(pais);
         container.add(año);
+        container.add(enProyec);
         container.add(si);
         container.add(no);
         container.add(buscar);
@@ -54,7 +58,7 @@ public class Consulta extends JFrame {
         container.add(limpiar);
         container.add(table);
         setSize(600, 600);
-        //eventos();
+        eventos();
     }
 
     public final void agregarLabels() {
@@ -78,6 +82,7 @@ public class Consulta extends JFrame {
         nombre = new JTextField();
         pais = new JTextField();
         año = new JTextField();
+        enProyec = new JTextField();
         si = new JRadioButton("si", true);
         no = new JRadioButton("no");
         resultados = new JTable();
@@ -101,6 +106,7 @@ public class Consulta extends JFrame {
         nombre.setBounds(140, 12, ANCHOC, ALTOC);
         pais.setBounds(140, 14, ANCHOC, ALTOC);
         año.setBounds(140, 16, ANCHOC, ALTOC);
+        enProyec.setBounds(140, 18, ANCHOC, ALTOC);
         si.setBounds(140, 140, 50, ALTOC);
         no.setBounds(210, 140, 50, ALTOC);
         
@@ -138,5 +144,100 @@ public class Consulta extends JFrame {
         MovieDao md = new MovieDao();
         ArrayList<Movie> movies = md.readAll();
         
+        for (Movie mo : movies) {
+            tm.addRow(new Object[]{mo.getNombre(),mo.getDirector(),mo.getPais(),mo.getClasificacion(),mo.getAño(),mo.getEn_proyeccion()});
+        }
+        resultados.setModel(tm);
+    }
+    
+    public void eventos() {
+        insertar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MovieDao md = new MovieDao();
+                Movie m = new Movie(nombre.getText(), director.getText(), pais.getText(), clasificacion.getSelectedItem().toString(), Integer.parseInt(año.getText()), Integer.parseInt(enProyec.getText()), true);
+                
+                if (no.isSelected()) {
+                    m.setProyeccion(false);
+                }
+                if (md.create(m)) {
+                    JOptionPane.showMessageDialog(null, "Pelicula registrada con exito");
+                    limpiarCampos();
+                    llenarTabla();
+                } else {
+                    JOptionPane.showMessageDialog(null, "La regaste :v");
+                }
+            }   
+        }); 
+        actualizar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MovieDao md = new MovieDao();
+                Movie m = new Movie(nombre.getText(), director.getText(), pais.getText(), clasificacion.getSelectedItem().toString(), Integer.parseInt(año.getText()), Integer.parseInt(enProyec.getText()), true);
+                
+                if (no.isSelected()) {
+                    m.setProyeccion(false);
+                }
+                if (md.update(m)) {
+                    JOptionPane.showMessageDialog(null, "Pelicula registrada con exito");
+                    limpiarCampos();
+                    llenarTabla();
+                } else {
+                    JOptionPane.showMessageDialog(null, "La regaste :v");
+                }
+            }   
+        }); 
+        eliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MovieDao md = new MovieDao();
+                if (md.delete(nombre.getText())) {
+                    JOptionPane.showMessageDialog(null, "Se elimino");
+                    limpiarCampos();
+                    llenarTabla();
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "La regaste :v");
+                }
+            }   
+        }); 
+       buscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MovieDao md = new MovieDao();
+                Movie m = md.read(nombre.getText());
+                
+                if (m == null) {
+                    JOptionPane.showMessageDialog(null, "No esta weon");
+                } else {
+                    nombre.setText(m.getNombre());
+                    director.setText(m.getDirector());
+                    pais.setText(m.getPais());
+                    clasificacion.setSelectedItem(m.getClasificacion());
+                    año.setText(Integer.toString(m.getAño()));
+                    if (m.getProyeccion()) {
+                    si.setSelected(true);
+                    }else {
+                    no.setSelected(false);
+                    }
+                }                
+            }   
+        });
+    }
+    public void limpiarCampos() {
+        nombre.setText("");
+        director.setText("");
+        pais.setText("");
+        año.setText("");
+        clasificacion.setSelectedItem("");
+    }
+    
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(new Runnable(){
+        @Override
+        public void run() {
+            new Consulta().setVisible(true);
+        }
+    });
     }
 }

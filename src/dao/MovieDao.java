@@ -30,7 +30,7 @@ public class MovieDao implements metodos<Movie> {
             ps.setString(2, g.getDirector());
             ps.setString(3, g.getPais());
             ps.setString(3, g.getClasificacion());
-            ps.setDate(5, g.getAño());
+            ps.setInt(5, g.getAño());
             ps.setInt(6, g.getEn_proyeccion());
             
             if(ps.executeUpdate() > 0) {
@@ -68,7 +68,7 @@ public class MovieDao implements metodos<Movie> {
             ps.setString(1, c.getDirector());
             ps.setString(2, c.getPais());
             ps.setString(3, c.getClasificacion());
-            ps.setDate(4, c.getAño());
+            ps.setInt(4, c.getAño());
             ps.setInt(5, c.getEn_proyeccion());
             if(ps.executeUpdate() > 0) { return true; }
         }catch (SQLException ex) {
@@ -90,7 +90,7 @@ public class MovieDao implements metodos<Movie> {
             
             rs = ps.executeQuery();
           
-            while(rs.next()) { m = new Movie (rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getBoolean(7)); }
+            while(rs.next()) { m = new Movie (rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getBoolean(7)); }
             rs.close();
         }catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -108,7 +108,7 @@ ArrayList<Movie> all = new ArrayList();
         try {
             s = con.getCnx().prepareStatement(SQL_READALL);
             rs = s.executeQuery(SQL_READALL); 
-             while(rs.next()) {all.add(new Movie(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getDate(6), rs.getInt(7), rs.getBoolean(8)));}
+             while(rs.next()) {all.add(new Movie(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getBoolean(8)));}
         }catch (SQLException ex) {
             Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }

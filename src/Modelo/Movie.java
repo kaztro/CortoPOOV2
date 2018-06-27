@@ -1,14 +1,12 @@
 package Modelo;
 
-import java.sql.Date;
-
 public class Movie {
     private int id;
     private String nombre;
     private String director;
     private String pais;
     private String clasificacion;
-    private Date año;
+    private int año;
     private int en_proyeccion;
     private boolean proyeccion;
 
@@ -16,7 +14,7 @@ public class Movie {
 
     }
 
-    public Movie(int id, String nombre, String director, String pais, String clasificacion, Date año, int en_proyeccion, boolean proyeccion) {
+    public Movie(int id, String nombre, String director, String pais, String clasificacion, int año, int en_proyeccion, boolean proyeccion) {
         this.id = id;
         this.nombre = nombre;
         this.director = director;
@@ -27,7 +25,7 @@ public class Movie {
         this.proyeccion = proyeccion;
     }
 
-    public Movie(String nombre, String director, String pais, String clasificacion, Date año, int en_proyeccion, boolean proyeccion) {
+    public Movie(String nombre, String director, String pais, String clasificacion, int año, int en_proyeccion, boolean proyeccion) {
         this.nombre = nombre;
         this.director = director;
         this.pais = pais;
@@ -37,7 +35,7 @@ public class Movie {
         this.proyeccion = proyeccion;
     }
 
-    public Movie(String director, String pais, String clasificacion, Date año, boolean proyeccion) {
+    public Movie(String director, String pais, String clasificacion, int año, boolean proyeccion) {
         this.director = director;
         this.pais = pais;
         this.clasificacion = clasificacion;
@@ -87,11 +85,11 @@ public class Movie {
         this.clasificacion = clasificacion;
     }
 
-    public Date getAño() {
+    public int getAño() {
         return año;
     }
 
-    public void setAño(Date año) {
+    public void setAño(int año) {
         this.año = año;
     }
 
@@ -109,6 +107,10 @@ public class Movie {
 
     public void setProyeccion(boolean proyeccion) {
         this.proyeccion = proyeccion;
+    }
+    
+    public boolean getProyeccion() {
+        return proyeccion;
     }
 
 
