@@ -1,8 +1,11 @@
 package Vista;
 
+import Modelo.Movie;
+import dao.MovieDao;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Consulta extends JFrame {
     public JLabel lblNombre, lblDirector, lblPais, lblClasificacion, lblAño, lblEn_proyeccion;
@@ -37,17 +40,19 @@ public class Consulta extends JFrame {
         container.add(lblClasificacion);
         container.add(lblAño);
         container.add(lblEn_proyeccion);
-        container.add("nombre");
-        container.add("marca");
-        container.add("stock");
-        container.add("si");
-        container.add("no");
-        container.add("buscar");
-        container.add("insertar");
-        container.add("actualizar");
-        container.add("eliminar");
-        container.add("limpiar");
-        container.add("table");
+        container.add(nombre);
+        container.add(clasificacion);
+        container.add(director);
+        container.add(pais);
+        container.add(año);
+        container.add(si);
+        container.add(no);
+        container.add(buscar);
+        container.add(insertar);
+        container.add(actualizar);
+        container.add(eliminar);
+        container.add(limpiar);
+        container.add(table);
         setSize(600, 600);
         //eventos();
     }
@@ -68,8 +73,70 @@ public class Consulta extends JFrame {
     }
 
     public final void formulario() {
-        nombre = new JTextField();
         clasificacion = new JComboBox();
-        stock = new JTextField();
+        director = new JTextField();
+        nombre = new JTextField();
+        pais = new JTextField();
+        año = new JTextField();
+        si = new JRadioButton("si", true);
+        no = new JRadioButton("no");
+        resultados = new JTable();
+        buscar = new JButton("Buscar");
+        insertar = new JButton("Insertar ");
+        eliminar = new JButton("Eliminar");
+        actualizar = new JButton("Actualizar");
+        limpiar = new JButton("limpiar");
+        
+        table = new JPanel();
+        
+        clasificacion.addItem("PG-13");
+        clasificacion.addItem("R");
+        clasificacion.addItem("G");
+        
+        en_proyeccion = new ButtonGroup();
+        en_proyeccion.add(si);
+        en_proyeccion.add(no);
+        
+        director.setBounds(140, 10, ANCHOC, ALTOC);
+        nombre.setBounds(140, 12, ANCHOC, ALTOC);
+        pais.setBounds(140, 14, ANCHOC, ALTOC);
+        año.setBounds(140, 16, ANCHOC, ALTOC);
+        si.setBounds(140, 140, 50, ALTOC);
+        no.setBounds(210, 140, 50, ALTOC);
+        
+        buscar.setBounds(300, 10, ANCHOC, ALTOC);
+        insertar.setBounds(10, 210, ANCHOC, ALTOC);
+        actualizar.setBounds(150, 210, ANCHOC, ALTOC);
+        eliminar.setBounds(300, 210, ANCHOC, ALTOC);
+        resultados = new JTable();
+        table.setBounds(10, 250, 500, 200);
+        table.add(new JScrollPane(resultados));
+    }
+    
+    public void llenarTabla() {
+        tm = new DefaultTableModel() {
+            public Class<?> getColumnClass(int column) {
+                switch(column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    default:
+                        return Boolean.class;
+                }
+            }
+        };
+        tm.addColumn("Nombre");
+        tm.addColumn("Director");
+        tm.addColumn("País");
+        tm.addColumn("Clasificación");
+        tm.addColumn("Año");
+        tm.addColumn("En proyección");
+        
+        MovieDao md = new MovieDao();
+        ArrayList<Movie> movies = md.readAll();
+        
     }
 }
