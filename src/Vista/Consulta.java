@@ -26,7 +26,7 @@ public class Consulta extends JFrame {
 
     private static final int ANCHOC = 130, ALTOC = 30;
 
-    DefaultTableModel tm;
+    DefaultTableModel tim;
 
     public Consulta() {
         super("Inventario");
@@ -119,7 +119,7 @@ public class Consulta extends JFrame {
     }
     
     public void llenarTabla() {
-        tm = new DefaultTableModel() {
+        tim = new DefaultTableModel() {
             public Class<?> getColumnClass(int column) {
                 switch(column) {
                     case 0:
@@ -133,20 +133,20 @@ public class Consulta extends JFrame {
                 }
             }
         };
-        tm.addColumn("Nombre");
-        tm.addColumn("Director");
-        tm.addColumn("País");
-        tm.addColumn("Clasificación");
-        tm.addColumn("Año");
-        tm.addColumn("En proyección");
+        tim.addColumn("Nombre");
+        tim.addColumn("Director");
+        tim.addColumn("País");
+        tim.addColumn("Clasificación");
+        tim.addColumn("Año");
+        tim.addColumn("En proyección");
         
         MovieDao md = new MovieDao();
         ArrayList<Movie> movies = md.readAll();
         
         for (Movie mo : movies) {
-            tm.addRow(new Object[]{mo.getNombre(),mo.getDirector(),mo.getPais(),mo.getClasificacion(),mo.getAño(),mo.getEn_proyeccion()});
+            tim.addRow(new Object[]{mo.getNombre(),mo.getDirector(),mo.getPais(),mo.getClasificacion(),mo.getAño(),mo.getEn_proyeccion()});
         }
-        resultados.setModel(tm);
+        resultados.setModel(tim);
     }
     
     public void eventos() {
